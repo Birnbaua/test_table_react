@@ -1,7 +1,9 @@
 import MaterialTable from "material-table";
+import Table from "@mui/material";
 import '../../App.css';
 import { createTheme, ThemeProvider, iconClasses} from "@mui/material";
 import React, { Component, forwardRef } from "react";
+import exampleData from './exampledata.json'
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -50,22 +52,47 @@ class MatchTable extends Component {
     componentDidMount() {
         this.setState({ 
             columns: [
-                {title: "Spiel", field: "no"},
-                {title: "Runde", field: "round"},
-                {title: "Zeit", field: "start"},
-                {title: "Feldnr.", field: "field.no"},
-                {title: "Feldname", field: "field.name"},
-                {title: "Team A", field: "teamA.name"},
-                {title: "Team B", field: "teamB.name"},
+                {title: "Spiel", field: "match_no"},
+                {title: "Runde", field: "round", width: "45%"},
+                {title: "Zeit", field: "start", width: "15%"},
+                {title: "Feldnr.", field: "field.no", width:"5%"},
+                {title: "Feldname", field: "field.name", width:"10%", cellStyle: { padding: "5px", overflow: "hidden", textOverflow: "ellipsis" }},
+                {title: "Team A", field: "team_a.name", width:"10%", cellStyle: { padding: "5px", overflow: "hidden", textOverflow: "ellipsis" }},
+                {title: "Team B", field: "team_b.name", width:"10%", cellStyle: { padding: "5px", overflow: "hidden", textOverflow: "ellipsis" }},
+                {title: "Schiedsrichter", field: "referee.name", width:"10%", cellStyle: { padding: "5px", overflow: "hidden", textOverflow: "ellipsis" }},
             ]
         })
     }
 
     render() {
         return (
+            <div style={{position: 'static', top: 50}}>
+            
             <ThemeProvider theme={createTheme()}>
-                <MaterialTable title={"Vorrunde"} icons={tableIcons} columns={this.state.columns} data={[]}></MaterialTable>
+                <MaterialTable 
+                    title={"Vorrunde"} 
+                    icons={tableIcons} 
+                    maxBodyHeight="80%"
+                    columns={this.state.columns} 
+                    data={exampleData}
+                    options={{
+                        paging: false,
+                        maxBodyHeight: '80',
+                        exportButton: true, exportAllData: true,
+                        tableLayout: "fixed",
+                        headerStyle: {
+                            backgroundColor: '#01579b',
+                            color: '#FFF',
+                            fontWeight: "bold",
+                        },
+                        rowStyle: (rowData) => {
+                            return {
+                                backgroundColor: rowData.match_no === '2' ? 'red' : 'blue'
+                            }
+                        }
+                    }}></MaterialTable>
             </ThemeProvider>
+            </div>
         )
     }
     
