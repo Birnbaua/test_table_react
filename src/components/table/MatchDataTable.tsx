@@ -4,6 +4,7 @@ import exampleData from './exampledata.json'
 import {ColumnDefinition, ReactTabulator} from '@rnwelsh/react-tabulator'
 import "@rnwelsh/react-tabulator/lib/css/styles.css"; // default theme
 import "@rnwelsh/react-tabulator/lib/css/tabulator.min.css"; 
+import "luxon"
 
 interface MatchSet{
     points_a: number
@@ -37,7 +38,7 @@ interface TableProps {
 
 interface TableState {
     rows?: Array<Match>
-    columnDefinition?: Array<ColumnDefinition>
+    columnDefinition?: ColumnDefinition[]
 }
 
 const rowColors = ["#ABEBC6","#FAD7A0","#AED6F1","#F9E79F","#D2B4DE"]
@@ -50,26 +51,27 @@ class MatchDataTable extends Component<TableProps,TableState> {
 
     state = {
         rows: exampleData,
-        columnDefinition: [
-            {field: "match_no", title: 'Spiel Nr.', widthGrow: 0.25, headerSort: false, editable: false, editor: "input",},
-            {field: "round", title: 'Runde', widthGrow: 0.25, headerSort: false, editable: false, editor: "input",},
-            {field: "start", title: 'Start', widthGrow: 0.25, headerSort: false, editable: true, editor: "input"},
-            {field: "field.no", title: 'Feld Nr.', widthGrow: 0.25, headerSort: false, editable: false, editor: "input",},
-            {field: "field.name", title: 'Feld', widthGrow: 0.5, headerSort: false, editable: false, editor: "input"},
-            {field: "team_a.name", title: 'Team A', widthGrow: 0.5, headerSort: false, editable: false, editor: "input"},
-            {field: "team_b.name", title: 'Team B', widthGrow: 0.5, headerSort: false, editable: false, editor: "input"},
-            {field: "referee.name", title: 'Schiedsrichter', widthGrow: 0.5, headerSort: false, editable: false, editor: "input"},
-        ]
+        columnDefinition: new Array<ColumnDefinition>()
     }
 
     componentDidMount(): void {
-        if(this.state.rows.length != 0) {
+        if(this.state.rows.length !== 0) {
             var sets: Array<number> = this.state.rows.map(row => {if(row.sets != null){return row.sets.length}else{return 0}})
             var setNo: number = Math.max(...sets)
             console.log("Number of sets: " + Math.max(...sets))
+            this.state.columnDefinition.push(...[
+                {field: "match_no", title: 'Spiel Nr.', widthGrow: 0.25, headerSort: false, editable: false},
+                {field: "round", title: 'Runde', widthGrow: 0.25, headerSort: false, editable: false},
+                {field: "start", title: 'Start', widthGrow: 0.25, headerSort: false, editable: true, editor: 'time'},
+                {field: "field.no", title: 'Feld Nr.', widthGrow: 0.25, headerSort: false, editable: false},
+                {field: "field.name", title: 'Feld', widthGrow: 0.5, headerSort: false, editable: false},
+                {field: "team_a.name", title: 'Team A', widthGrow: 0.5, headerSort: false, editable: false},
+                {field: "team_b.name", title: 'Team B', widthGrow: 0.5, headerSort: false, editable: false},
+                {field: "referee.name", title: 'Schiedsrichter', widthGrow: 0.5, headerSort: false, editable: false},
+            ])
             for(let i = 0;i<setNo;i++) {
-                this.state.columnDefinition.push({field: "sets."+ i +".points_a", title: 'Satz'+i+' a' , widthGrow: 0.2, headerSort: false, editable: true, editor: "input"})
-                this.state.columnDefinition.push({field: "sets."+ i +".points_b", title: 'Satz'+i+' b' , widthGrow: 0.2, headerSort: false, editable: true, editor: "input"})
+                this.state.columnDefinition.push({field: "sets."+ i +".points_a", title: 'Satz'+i+' a' , widthGrow: 0.2, headerSort: false, editable: true, editor: "number"})
+                this.state.columnDefinition.push({field: "sets."+ i +".points_b", title: 'Satz'+i+' b' , widthGrow: 0.2, headerSort: false, editable: true, editor: "number"})
             }
         }
     }
