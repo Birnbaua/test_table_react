@@ -8,6 +8,8 @@ import NavigationBar from './components/NavigationBar';
 import MatchTable from './components/table/MatchTable';
 import MatchTable2 from './components/table/MatchTable2.tsx';
 import MatchDataTable from './components/table/MatchDataTable.tsx';
+import MatchDataTable2 from './components/table/MatchDataTable2.tsx';
+import TestState from './components/StateTest';
 
 function App() {
   return (
@@ -15,7 +17,7 @@ function App() {
       <BrowserRouter>
         <NavigationBar/>
         <Routes>
-          <Route exact path="/" element={<MatchDataTable/>}></Route>
+          <Route exact path="/" element={<TestState />}></Route>
           <Route path="/contact" element={<Instruction/>}>  </Route>
           <Route path="/about" element={<MatchTable/>}></Route>
           <Route path="*"></Route>
