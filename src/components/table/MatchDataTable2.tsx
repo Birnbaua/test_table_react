@@ -1,7 +1,7 @@
-import React from "react"
-import { Component, ReactNode } from 'react'
-import exampleData from './exampledata.json'
-import {ColumnDefinition, ReactTabulator} from '@rnwelsh/react-tabulator'
+import React from "react";
+import { Component, ReactNode } from 'react';
+import exampleData from './exampledata.json';
+import {ColumnDefinition, ReactTabulator} from '@rnwelsh/react-tabulator';
 import "@rnwelsh/react-tabulator/lib/css/styles.css"; // default theme
 import "@rnwelsh/react-tabulator/lib/css/tabulator.min.css"; 
 import "luxon"

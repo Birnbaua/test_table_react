@@ -5,10 +5,6 @@ import 'bootstrap/dist/js/bootstrap.js';
 import Instruction from './components/instruction/Instruction';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
-import MatchTable from './components/table/MatchTable';
-import MatchTable2 from './components/table/MatchTable2.tsx';
-import MatchDataTable from './components/table/MatchDataTable.tsx';
-import MatchDataTable2 from './components/table/MatchDataTable2.tsx';
 import TestState from './components/StateTest';
 
 function App() {
@@ -17,9 +13,9 @@ function App() {
       <BrowserRouter>
         <NavigationBar/>
         <Routes>
-          <Route exact path="/" element={<TestState />}></Route>
+          <Route exact path="/" element={<TestState sets="1"/>}></Route>
           <Route path="/contact" element={<Instruction/>}>  </Route>
-          <Route path="/about" element={<MatchTable/>}></Route>
+          <Route path="/about" element={<TestState/>}></Route>
           <Route path="*"></Route>
         </Routes>
       </BrowserRouter>

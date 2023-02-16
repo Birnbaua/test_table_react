@@ -159,7 +159,7 @@
     "team_a": {"no": "1", "name": "Team 1sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"},
     "team_b": {"no": "2", "name": "Team 2 sseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"},
     "referee": {"no": "0", "name": "Test Schirissssssssssssssssssssssssssssss"},
-    "sets": [{"points_a": 0, "points_b": 0}]
+    "sets": [{"points_a": 0, "points_b": 0},{"points_a": 0, "points_b": 0}]
 },{
     "match_no": "19",
     "round": 4,
