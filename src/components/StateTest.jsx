@@ -4,6 +4,7 @@ import {ReactTabulator} from '@rnwelsh/react-tabulator';
 import "@rnwelsh/react-tabulator/lib/css/styles.css"; // default theme
 import "@rnwelsh/react-tabulator/lib/css/tabulator.min.css"; 
 import "luxon"
+import GameroundToolbar from "./GameroundToolbar";
 
 function TestState(props) {
 
@@ -11,15 +12,21 @@ function TestState(props) {
 
     const[columns, setColumns] = useState([])
     const[rows, setRows] = useState([])
-
+    const[data, setData] = useState([])
+    const[search, setSearch] = useState("")
+    const [tableKey, setTableKey] = useState(1234)
 
     useEffect(() => {
-        setRows(exampleData)
+        setData(exampleData)
     },[])
 
+    useEffect(() => {
+        setRows(data)
+    },[data])
+
     useEffect( () => {
-        var sets = rows.map(row => {if(row.sets != null){return row.sets.length}else{return 0}})
-        var arr = [
+        const sets = rows.map(row => row.sets != null ? row.sets.length : 0)
+        let arr = [
             {field: "match_no", title: 'Spiel Nr.', widthGrow: 0.25, headerSort: false, editable: false},
             {field: "round", title: 'Runde', widthGrow: 0.25, headerSort: false, editable: false},
             {field: "start", title: 'Start', widthGrow: 0.25, headerSort: false, editable: true, editor: 'time'},
@@ -29,9 +36,7 @@ function TestState(props) {
             {field: "team_b.name", title: 'Team B', widthGrow: 0.5, headerSort: false, editable: false},
             {field: "referee.name", title: 'Schiedsrichter', widthGrow: 0.5, headerSort: false, editable: false},
         ]
-        //let value = props.sets || 3
-        let value = Math.max(...sets)
-        for(let i = 0;i<value;i++) {
+        for (let i = 0;i<Math.max(...sets);i++) {
             arr.push({field: "sets."+ i +".points_a", title: 'Satz'+ i +' a' , widthGrow: 0.2, headerSort: false, editable: true, editor: "number"})
             arr.push({field: "sets."+ i +".points_b", title: 'Satz'+ i +' b' , widthGrow: 0.2, headerSort: false, editable: true, editor: "number"})
         }
@@ -39,9 +44,27 @@ function TestState(props) {
     }, [rows])
     
 
+    useEffect(() => {
+        setTableKey(tableKey => tableKey + 1)
+    }, [columns])
+
+    useEffect(() => {
+        if(search.length > 0) {
+            let arr = rows.filter(row => 
+                search.match(row.team_a.name)
+            )
+            setRows(arr)
+        } else {
+            setRows(data)
+        }
+    }, [search])
+
     return (
         <div>
-            <ReactTabulator 
+            <GameroundToolbar></GameroundToolbar>
+            <h1>{props.title || 'Titel'}</h1>
+            <ReactTabulator
+                key={tableKey}
                 data={rows} columns={columns}
                 layout={'fitColumns'}
                 rowFormatter={function(row){
